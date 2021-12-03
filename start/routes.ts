@@ -20,6 +20,22 @@
 
 import Route from '@ioc:Adonis/Core/Route'
 
-Route.get('/', async () => {
-  return { hello: 'world' }
-})
+// USERS
+Route.post('/users', 'UsersController.store');
+
+// LOGIN
+Route.post('/login', async ({ auth, request }) => {
+  const username = request.input('username')
+  const password = request.input('password')
+
+  const token = await auth.use('api').attempt(username, password)
+
+  return token
+});
+
+// NOTES
+// todo auth
+Route.group(() => {
+  Route.get('/notes', 'NotesController.index')
+  Route.post('/notes', 'NotesController.update')
+}).middleware(['auth']);
