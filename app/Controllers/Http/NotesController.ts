@@ -16,4 +16,13 @@ export default class NotesController {
 
     return notes;
   }
+
+  async delete({ params, auth }: HttpContextContract) {
+    const { noteId } = params;
+    const note = await Note.query().where('user_id', auth.user!.id).andWhere('id', noteId).firstOrFail();
+
+    await note.delete();
+
+    return { ok: true, note }
+  }
 }

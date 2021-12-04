@@ -38,4 +38,5 @@ Route.post('/login', async ({ auth, request }) => {
 Route.group(() => {
   Route.get('/notes', 'NotesController.index')
   Route.post('/notes', 'NotesController.update')
+  Route.delete('/notes/:noteId', 'NotesController.delete')
 }).middleware(['auth']);
